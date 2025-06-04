@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}} - VoyageTMS Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <style>
+        .tab-active {
+            background-color: rgba(59, 130, 246, 0.9);
+        }
+        .tab-hover:hover {
+            background-color: rgba(37, 99, 235, 0.9);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+    <!-- Admin Header - Simple blue navbar -->
+    <header class="bg-[#1a73e8] text-white py-4 px-6">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <span class="text-xl font-bold">
+                    <span class="text-white">Voyage</span><span class="text-[#34a853]">TMS</span>
+                </span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <span>{{adminUsername}} (admin)</span>
+                <a href="/admin/logout" class="bg-white text-[#1a73e8] px-4 py-2 rounded hover:bg-gray-100 transition duration-200">
+                    Logout
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-6 py-8">
+        {{{body}}}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-100 py-4 border-t">
+        <div class="container mx-auto px-6 text-center text-gray-500">
+            <p>© {{currentYear}} VoyageTMS | Admin Panel</p>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize toastr notifications
+        toastr.options = {
+            "closeButton": true,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "timeOut": "3000"
+        };
+
+        // Show success message if exists
+        {{#if successMessage}}
+            toastr.success('{{successMessage}}');
+        {{/if}}
+
+        // Show error message if exists
+        {{#if errorMessage}}
+            toastr.error('{{errorMessage}}');
+        {{/if}}
+    </script>
+</body>
+</html> 

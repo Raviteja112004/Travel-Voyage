@@ -1,0 +1,32 @@
+<div class="card mt-4">
+  <div class="card-header bg-primary text-white">
+    <h5 class="mb-0">Ask About This Package</h5>
+  </div>
+  <div class="card-body">
+    {{#if isLoggedIn}}
+      <form action="/enquiry/submit" method="POST">
+        <input type="hidden" name="packageId" value="{{package.PackageId}}">
+        
+        <div class="mb-3">
+          <label for="subject" class="form-label">Subject</label>
+          <input type="text" class="form-control" id="subject" name="subject" 
+                 placeholder="Enter your question subject" required>
+        </div>
+        
+        <div class="mb-3">
+          <label for="description" class="form-label">Your Question</label>
+          <textarea class="form-control" id="description" name="description" 
+                    rows="3" placeholder="What would you like to know about this package?" required></textarea>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-question-circle"></i> Submit Question
+        </button>
+      </form>
+    {{else}}
+      <div class="alert alert-info mb-0">
+        <i class="fas fa-info-circle"></i> Please <a href="/login">login</a> to ask questions about this package.
+      </div>
+    {{/if}}
+  </div>
+</div> 

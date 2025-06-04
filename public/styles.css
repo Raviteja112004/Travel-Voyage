@@ -1,0 +1,377 @@
+/* Core styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  color: #333;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Header */
+header {
+  background-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.top-bar {
+  background: linear-gradient(135deg, #0072CE, #00A3E0);
+  color: white;
+  padding: 8px 0;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.contact-info span {
+  margin-right: 20px;
+}
+
+.nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 0;
+}
+
+.logo span {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.logo span:first-child {
+  color: #0072CE;
+}
+
+.logo span:last-child {
+  color: #4CAF50;
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+}
+
+nav ul li {
+  margin-left: 30px;
+}
+
+nav ul li a {
+  color: #444;
+  text-decoration: none;
+  font-weight: 500;
+  position: relative;
+  padding-bottom: 5px;
+}
+
+nav ul li a:after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(to right, #0072CE, #4CAF50);
+  bottom: 0;
+  left: 0;
+  transition: width 0.3s;
+}
+
+nav ul li a:hover:after {
+  width: 100%;
+}
+
+/* Hero section */
+.hero {
+  height: 600px;
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('./tour.jpg') center/cover;
+  color: white;
+  display: flex;
+  align-items: center;
+}
+
+.hero-content {
+  max-width: 650px;
+}
+
+.hero h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.hero p {
+  font-size: 18px;
+  margin-bottom: 30px;
+}
+
+.search-box {
+  background: rgba(255, 255, 255, 0.713);
+  border-radius: 8px;
+  display: none;
+  padding: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.search-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.search-group {
+  flex: 1;
+}
+
+.search-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #444;
+  font-size: 14px;
+}
+
+.search-group input, .search-group select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #f9f9f9;
+}
+
+.search-btn {
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  color: white;
+  border: none;
+  padding: 14px 25px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 16px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  width: 100%;
+}
+
+.search-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+}
+
+/* Services section */
+.services {
+  padding: 80px 0;
+  background: #f9f9f9;
+  text-align: center;
+}
+
+.section-header h2 {
+  font-size: 36px;
+  color: #333;
+  margin-bottom: 15px;
+  position: relative;
+  display: inline-block;
+}
+
+.section-header h2:after {
+  content: '';
+  position: absolute;
+  width: 70px;
+  height: 3px;
+  background: linear-gradient(to right, #0072CE, #4CAF50);
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Features section */
+.features {
+  padding: 80px 0;
+  display: flex;
+  gap: 50px;
+  flex-wrap: wrap;
+}
+
+.feature-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.feature-icon {
+  background: linear-gradient(135deg, #0072CE, #4CAF50);
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+}
+
+/* Footer */
+footer {
+  background: #222;
+  color: #ccc;
+  padding: 60px 0 30px;
+  text-align: center;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.footer-col h3 {
+  color: white;
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+.footer-col ul {
+  list-style: none;
+}
+
+.footer-col ul li a:hover {
+  color: #4CAF50;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero {
+    height: auto;
+    padding: 100px 0;
+    text-align: center;
+  }
+
+  .search-row, .features {
+    flex-direction: column;
+  }
+
+  .nav-container, nav ul {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+/* Hotel Selection Styling */
+.hotel-selection {
+  margin: 20px 0;
+}
+
+.hotel-select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.hotel-preview {
+  margin-top: 15px;
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 15px;
+  transition: all 0.3s ease;
+}
+
+.hotel-preview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.hotel-preview-name {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.hotel-preview-price {
+  color: #28a745;
+  font-weight: 600;
+}
+
+.hotel-preview-description {
+  margin-bottom: 12px;
+  color: #555;
+}
+
+.amenity-tag {
+  display: inline-block;
+  background-color: #e7f3ff;
+  border: 1px solid #c1dfff;
+  color: #0066cc;
+  padding: 3px 8px;
+  border-radius: 15px;
+  font-size: 12px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
+/* Booking Summary */
+.booking-summary {
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.booking-summary h3 {
+  margin-top: 0;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.summary-item.total {
+  font-weight: bold;
+  font-size: 18px;
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+  margin-top: 10px;
+}
+
+/* Print styles for invoice */
+@media print {
+  header, footer, .no-print {
+    display: none !important;
+  }
+  
+  .invoice-container {
+    width: 100%;
+    border: none;
+    box-shadow: none;
+  }
+  
+  body {
+    background-color: white;
+  }
+  
+  .print-button {
+    display: none;
+  }
+}

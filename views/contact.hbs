@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - VoyageTMS</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <style>
+        body {
+            background-color: #f8fafc;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .contact-hero {
+            background: linear-gradient(to right, rgba(59, 130, 246, 0.8), rgba(37, 99, 235, 0.8)), 
+                        url('https://images.unsplash.com/photo-1569949381669-ecf31ae8e613?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        .custom-shape-divider-bottom-1635700636 {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+        }
+        .custom-shape-divider-bottom-1635700636 svg {
+            position: relative;
+            display: block;
+            width: calc(100% + 1.3px);
+            height: 50px;
+        }
+        .custom-shape-divider-bottom-1635700636 .shape-fill {
+            fill: #F8FAFC;
+        }
+        .contact-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.1), 0 8px 10px -6px rgba(59, 130, 246, 0.1);
+        }
+        .form-input {
+            transition: border-color 0.2s ease;
+        }
+        .form-input:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        .submit-button {
+            background: linear-gradient(to right, #3b82f6, #2563eb);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .contact-info-item {
+            transition: transform 0.2s ease;
+        }
+        .contact-info-item:hover {
+            transform: translateX(5px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Page Container -->
+    <div class="min-h-screen flex flex-col">
+        <!-- Hero Section -->
+        <div class="relative contact-hero text-white py-20">
+            <div class="container mx-auto px-4 relative z-10">
+                <div class="max-w-4xl mx-auto text-center">
+                    <h1 class="text-4xl md:text-5xl font-bold mb-4">Get in Touch</h1>
+                    <p class="text-xl opacity-90 mb-8">We're here to answer any questions you might have about our services</p>
+                    <div class="flex flex-wrap justify-center gap-4">
+                        <a href="tel:+1234567890" class="bg-white text-blue-600 hover:bg-blue-50 px-6 py-3 rounded-lg font-medium flex items-center">
+                            <i class="fas fa-phone-alt mr-2"></i> Call Us
+                        </a>
+                        <a href="mailto:info@voyagetms.com" class="bg-transparent border-2 border-white text-white hover:bg-white hover:text-blue-600 px-6 py-3 rounded-lg font-medium flex items-center">
+                            <i class="fas fa-envelope mr-2"></i> Email Us
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="custom-shape-divider-bottom-1635700636">
+                <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                    <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-grow container mx-auto px-4 py-12">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Contact Form -->
+                <div class="lg:col-span-2">
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden p-6 md:p-8">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">Send Us a Message</h2>
+                        <form id="contactForm" action="/submit-enquiry" method="post">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                <div>
+                                    <label for="name" class="block text-gray-700 font-medium mb-2">Your Name</label>
+                                    <input type="text" id="name" name="name" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none" placeholder="John Doe" value="{{#if isLoggedIn}}{{userName}}{{/if}}" required>
+                                </div>
+                                <div>
+                                    <label for="email" class="block text-gray-700 font-medium mb-2">Email Address</label>
+                                    <input type="email" id="email" name="email" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none" placeholder="john@example.com" value="{{#if isLoggedIn}}{{userEmail}}{{/if}}" required>
+                                </div>
+                            </div>
+                            <div class="mb-6">
+                                <label for="subject" class="block text-gray-700 font-medium mb-2">Subject</label>
+                                <input type="text" id="subject" name="subject" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none" placeholder="How can we help you?" required>
+                            </div>
+                            <div class="mb-6">
+                                <label for="message" class="block text-gray-700 font-medium mb-2">Message</label>
+                                <textarea id="message" name="message" rows="5" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none resize-none" placeholder="Write your message here..." required></textarea>
+                            </div>
+                            <input type="hidden" name="userId" value="{{userId}}">
+                            <button type="submit" class="submit-button w-full text-white font-medium rounded-lg px-6 py-3 flex items-center justify-center">
+                                <i class="fas fa-paper-plane mr-2"></i> Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Contact Information -->
+                <div>
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden p-6 md:p-8 mb-8 contact-card">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Contact Information</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start contact-info-item">
+                                <div class="bg-blue-100 rounded-full p-2.5 mr-4 flex-shrink-0">
+                                    <i class="fas fa-map-marker-alt text-blue-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-gray-700">Our Address</h4>
+                                    <p class="text-gray-600">123 Travel Street, Tourism City, TC 12345</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start contact-info-item">
+                                <div class="bg-blue-100 rounded-full p-2.5 mr-4 flex-shrink-0">
+                                    <i class="fas fa-phone-alt text-blue-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-gray-700">Phone Number</h4>
+                                    <p class="text-gray-600">+1 (234) 567-8901</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start contact-info-item">
+                                <div class="bg-blue-100 rounded-full p-2.5 mr-4 flex-shrink-0">
+                                    <i class="fas fa-envelope text-blue-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-gray-700">Email Address</h4>
+                                    <p class="text-gray-600">info@voyagetms.com</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start contact-info-item">
+                                <div class="bg-blue-100 rounded-full p-2.5 mr-4 flex-shrink-0">
+                                    <i class="fas fa-clock text-blue-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-gray-700">Business Hours</h4>
+                                    <p class="text-gray-600">Monday - Friday: 9 AM to 6 PM</p>
+                                    <p class="text-gray-600">Saturday: 10 AM to 4 PM</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden p-6 md:p-8 contact-card">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Connect With Us</h3>
+                        <p class="text-gray-600 mb-6">Follow us on social media for travel tips, destination guides, and exclusive deals!</p>
+                        <div class="flex space-x-4">
+                            <a href="#" class="bg-blue-100 hover:bg-blue-200 text-blue-600 p-3 rounded-full transition-colors">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="bg-blue-100 hover:bg-blue-200 text-blue-600 p-3 rounded-full transition-colors">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="bg-blue-100 hover:bg-blue-200 text-blue-600 p-3 rounded-full transition-colors">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" class="bg-blue-100 hover:bg-blue-200 text-blue-600 p-3 rounded-full transition-colors">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Map Section -->
+        <div class="bg-gray-100 py-12">
+            <div class="container mx-auto px-4">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Find Us on the Map</h2>
+                <div class="bg-white rounded-xl shadow-md overflow-hidden h-80">
+                    <!-- Replace the iframe src with your actual Google Maps embed URL -->
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.9916256937595!2d2.2922926156744847!3d48.85837360866266!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e2964e34e2d%3A0x8ddca9ee380ef7e0!2sEiffel%20Tower!5e0!3m2!1sen!2sus!4v1621836001009!5m2!1sen!2sus" class="w-full h-full" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Section (Optional) -->
+        <div class="container mx-auto px-4 py-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-8 text-center">Frequently Asked Questions</h2>
+            <div class="max-w-3xl mx-auto">
+                <div class="space-y-4">
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="font-bold text-lg text-gray-800 mb-2">How can I book a package?</h3>
+                        <p class="text-gray-600">You can book a package directly through our website. Browse our available packages, select the one you're interested in, and follow the booking process.</p>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="font-bold text-lg text-gray-800 mb-2">What's your cancellation policy?</h3>
+                        <p class="text-gray-600">We offer free cancellation up to 48 hours before your trip. Please check the specific terms for each package as they may vary.</p>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="font-bold text-lg text-gray-800 mb-2">Do you offer customized tour packages?</h3>
+                        <p class="text-gray-600">Yes, we specialize in creating customized tour packages tailored to your preferences. Contact our team with your requirements, and we'll design a perfect itinerary for you.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            // Configure Toastr
+            toastr.options = {
+                closeButton: true,
+                progressBar: true,
+                positionClass: "toast-top-right",
+                timeOut: 5000
+            };
+            
+            // Handle URL parameters for messages
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('success')) {
+                toastr.success(urlParams.get('success'));
+            }
+            if (urlParams.has('error')) {
+                toastr.error(urlParams.get('error'));
+            }
+            
+            // Form submission with AJAX
+            $('#contactForm').on('submit', function(e) {
+                e.preventDefault();
+                
+                const formData = $(this).serialize();
+                
+                $.ajax({
+                    type: 'POST',
+                    url: '/submit-enquiry',
+                    data: formData,
+                    success: function(response) {
+                        if (response.success) {
+                            toastr.success('Your message has been sent successfully. We will get back to you soon!');
+                            $('#contactForm')[0].reset();
+                        } else {
+                            toastr.error(response.message || 'There was an error sending your message. Please try again.');
+                        }
+                    },
+                    error: function() {
+                        toastr.error('There was an error sending your message. Please try again.');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

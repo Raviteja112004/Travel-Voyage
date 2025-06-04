@@ -1,0 +1,10 @@
+<!-- Add this to your admin sidebar/navigation -->
+<div class="sidebar-item {{#if activeTab.enquiries}}active{{/if}}">
+    <a href="/admin/enquiries" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-50 transition-colors">
+        <i class="fas fa-envelope text-xl text-blue-600"></i>
+        <span>Enquiries</span>
+        {{#if unreadEnquiries}}
+            <span class="bg-red-500 text-white text-xs px-2 py-1 rounded-full">{{unreadEnquiries}}</span>
+        {{/if}}
+    </a>
+</div> 

@@ -1,0 +1,15 @@
+<h1>Available Hotels</h1>
+{{#if userName}}
+  <p>Welcome, {{userName}}!</p>
+{{/if}}
+
+<div class="hotels-container">
+  {{#each hotels}}
+    <div class="hotel-card">
+      <h2>{{name}}</h2>
+      <p>Price: {{price}}</p>
+      <p>Rating: {{rating}} stars</p>
+      <a href="/hotels/{{id}}" class="btn">View Details</a>
+    </div>
+  {{/each}}
+</div> 

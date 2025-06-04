@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Details | WanderLust</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .booking-header {
+            background-image: linear-gradient(135deg, #1a75ff, #00ccff);
+            color: white;
+        }
+        .section-title {
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        .status-confirmed {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+        .status-pending {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        .status-cancelled {
+            background-color: #fee2e2;
+            color: #b91c1c;
+        }
+        .amenity-icon {
+            width: 24px;
+            height: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f0f9ff;
+            color: #1a75ff;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        .hotel-card {
+            transition: transform 0.3s ease;
+        }
+        .hotel-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+
+    <div class="container mx-auto px-4 py-8">
+        <div class="bg-white rounded-lg shadow-md overflow-hidden mb-8">
+            <!-- Booking Header -->
+            <div class="booking-header p-6">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h1 class="text-2xl font-bold">Booking #{{booking.BookingID}}</h1>
+                        <p class="text-white text-opacity-90">Booked on {{formatDate booking.BookingDate}}</p>
+                    </div>
+                    <div>
+                        <span class="status-badge 
+                            {{#if (eq booking.Status 'Confirmed')}}status-confirmed{{/if}}
+                            {{#if (eq booking.Status 'Pending')}}status-pending{{/if}}
+                            {{#if (eq booking.Status 'Cancelled')}}status-cancelled{{/if}}
+                        ">
+                            {{booking.Status}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Booking Details -->
+            <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Package Information -->
+                    <div>
+                        <h2 class="section-title text-xl">Package Information</h2>
+                        <div class="flex mb-4">
+                            <div class="w-1/3">
+                                <img src="/{{package.PackageImage}}" alt="{{package.PackageName}}" class="w-full h-40 object-cover rounded-lg">
+                            </div>
+                            <div class="w-2/3 pl-4">
+                                <h3 class="text-lg font-semibold">{{package.PackageName}}</h3>
+                                <p class="text-gray-600 mb-2"><i class="fas fa-map-marker-alt mr-2"></i>{{package.PackageLocation}}</p>
+                                <p class="text-gray-600 mb-2"><i class="fas fa-calendar mr-2"></i>{{package.Duration}}</p>
+                                <p class="text-gray-600"><i class="fas fa-rupee-sign mr-2"></i>{{formatCurrency package.PackagePrice}} per person</p>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-2">Package Features:</h4>
+                            <div class="grid grid-cols-2 gap-2">
+                                {{#each package.Features}}
+                                <div class="flex items-center text-gray-700">
+                                    <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                    <span>{{this}}</span>
+                                </div>
+                                {{/each}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Booking Information -->
+                    <div>
+                        <h2 class="section-title text-xl">Booking Information</h2>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <p class="text-gray-600">Travel Dates</p>
+                                <p class="font-semibold">{{formatDate booking.FromDate}} - {{formatDate booking.ToDate}}</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-600">Number of Travelers</p>
+                                <p class="font-semibold">{{booking.NumberOfPeople}} person(s)</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-600">Booking Total</p>
+                                <p class="font-semibold">{{formatCurrency (multiply booking.PackagePrice booking.NumberOfPeople)}}</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-600">Payment Method</p>
+                                <p class="font-semibold">{{booking.PaymentMethod}}</p>
+                            </div>
+                        </div>
+
+                        <!-- Special Requests -->
+                        {{#if booking.SpecialRequests}}
+                        <div class="mt-4">
+                            <h4 class="font-semibold mb-2">Special Requests:</h4>
+                            <p class="text-gray-700 bg-gray-50 p-3 rounded">{{booking.SpecialRequests}}</p>
+                        </div>
+                        {{/if}}
+
+                        <!-- Action Buttons -->
+                        <div class="mt-6 flex space-x-3">
+                            <a href="/invoice/{{booking.BookingID}}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md flex items-center">
+                                <i class="fas fa-file-invoice mr-2"></i> View Invoice
+                            </a>
+                            {{#if (eq booking.Status 'Pending')}}
+                            <form action="/cancel-booking/{{booking.BookingID}}" method="POST" onsubmit="return confirm('Are you sure you want to cancel this booking?');">
+                                <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md flex items-center">
+                                    <i class="fas fa-times-circle mr-2"></i> Cancel Booking
+                                </button>
+                            </form>
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nearby Hotels -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold mb-4">Nearby Hotels in {{package.PackageLocation}}</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {{#each hotels}}
+                <div class="bg-white rounded-lg shadow-md overflow-hidden hotel-card">
+                    <img src="/{{this.HotelImage}}" alt="{{this.HotelName}}" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-lg font-semibold">{{this.HotelName}}</h3>
+                            <div class="flex items-center bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                                <i class="fas fa-star text-yellow-500 mr-1"></i>
+                                <span>{{this.Ratings}}</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-3"><i class="fas fa-map-marker-alt mr-1"></i> {{this.HotelLocation}}</p>
+                        <div class="mb-4">
+                            <h4 class="font-semibold mb-2">Amenities:</h4>
+                            <div class="flex flex-wrap">
+                                {{#each this.AmenitiesArray}}
+                                <span class="inline-flex items-center mb-2 mr-2 bg-gray-100 px-2 py-1 rounded text-sm text-gray-800">
+                                    <span class="amenity-icon"><i class="fas fa-check"></i></span>
+                                    {{this}}
+                                </span>
+                                {{/each}}
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-3"><i class="fas fa-rupee-sign mr-1"></i> {{formatCurrency this.Price}} per night</p>
+                        <a href="#" class="block text-center bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md">
+                            View Hotel Details
+                        </a>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+
+        <!-- Travel Tips -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-bold mb-4">Travel Tips for {{package.PackageLocation}}</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <div class="flex items-center mb-2">
+                        <i class="fas fa-umbrella-beach text-2xl text-blue-600 mr-3"></i>
+                        <h3 class="font-semibold">Best Time to Visit</h3>
+                    </div>
+                    <p class="text-gray-700">The ideal time to visit {{package.PackageLocation}} is between October and March when the weather is pleasant for sightseeing and outdoor activities.</p>
+                </div>
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <div class="flex items-center mb-2">
+                        <i class="fas fa-utensils text-2xl text-blue-600 mr-3"></i>
+                        <h3 class="font-semibold">Local Cuisine</h3>
+                    </div>
+                    <p class="text-gray-700">Don't miss trying the local delicacies when in {{package.PackageLocation}}. Look for small local restaurants for authentic flavors.</p>
+                </div>
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <div class="flex items-center mb-2">
+                        <i class="fas fa-map-marked-alt text-2xl text-blue-600 mr-3"></i>
+                        <h3 class="font-semibold">Getting Around</h3>
+                    </div>
+                    <p class="text-gray-700">Public transportation is convenient in most parts of {{package.PackageLocation}}. Consider renting a vehicle for more remote areas.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{> footer}}
+</body>
+</html> 

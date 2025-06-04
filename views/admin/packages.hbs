@@ -1,0 +1,174 @@
+<!-- Page Title and Add Button -->
+<div class="flex justify-between items-center mb-8">
+    <h2 class="text-2xl font-bold text-gray-800">Tour Packages</h2>
+    <a href="/admin/packages/add" class="bg-purple-600 text-white px-4 py-2 rounded-md flex items-center space-x-2 hover:bg-purple-700 transition duration-200">
+        <i class="fas fa-plus"></i>
+        <span>Add New Package</span>
+    </a>
+</div>
+
+<!-- Navigation Tabs -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+    <a href="/admin/dashboard" class="bg-blue-600 text-white p-4 rounded-md flex items-center space-x-2 hover:bg-blue-700 transition">
+        <i class="fas fa-tachometer-alt"></i>
+        <span>Dashboard</span>
+    </a>
+    <a href="/admin/customers" class="bg-green-500 text-white p-4 rounded-md flex items-center space-x-2 hover:bg-green-600 transition">
+        <i class="fas fa-users"></i>
+        <span>Customers</span>
+    </a>
+    <a href="/admin/packages" class="bg-purple-600 text-white p-4 rounded-md flex items-center space-x-2 hover:bg-purple-700 transition tab-active">
+        <i class="fas fa-box"></i>
+        <span>Tour Packages</span>
+    </a>
+    <a href="/admin/bookings" class="bg-orange-500 text-white p-4 rounded-md flex items-center space-x-2 hover:bg-orange-600 transition">
+        <i class="fas fa-calendar-check"></i>
+        <span>Bookings</span>
+    </a>
+</div>
+
+<!-- Search Box -->
+<div class="bg-white p-6 rounded-lg shadow mb-8">
+    <h3 class="text-lg font-semibold mb-4">Search Packages</h3>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Destination</label>
+            <select class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="">All Destinations</option>
+                {{#each destinations}}
+                    <option value="{{this}}">{{this}}</option>
+                {{/each}}
+            </select>
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Min Price</label>
+            <input type="number" placeholder="Min Price" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Max Price</label>
+            <input type="number" placeholder="Max Price" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Duration (days)</label>
+            <input type="number" placeholder="Duration" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+    </div>
+    <div class="flex items-center space-x-2">
+        <div class="flex-grow relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                <i class="fas fa-search text-gray-400"></i>
+            </span>
+            <input type="text" placeholder="Search packages by name or description..." 
+                class="w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <button class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition">Search</button>
+        <button class="bg-gray-200 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-300 transition">Clear</button>
+    </div>
+</div>
+
+<!-- Available Packages -->
+<div class="bg-white rounded-lg shadow overflow-hidden">
+    <div class="p-6 border-b border-gray-200 flex justify-between items-center">
+        <h3 class="text-xl font-semibold">Available Packages</h3>
+        <span class="text-gray-500">{{packageCount}} packages</span>
+    </div>
+    
+    <div class="p-6">
+        <!-- Grid view of packages -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {{#if packages}}
+                {{#each packages}}
+                <div class="bg-white border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition">
+                    <div class="relative">
+                        <img src="{{this.PackageImage}}" alt="{{this.PackageName}}" class="w-full h-48 object-cover">
+                        <div class="absolute top-2 left-2 bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded">
+                            {{this.PackageDuration}} DAYS
+                        </div>
+                        {{#if this.PackageActive}}
+                            <div class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">
+                                ACTIVE
+                            </div>
+                        {{else}}
+                            <div class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
+                                INACTIVE
+                            </div>
+                        {{/if}}
+                    </div>
+                    <div class="p-4">
+                        <h4 class="text-lg font-bold text-gray-900 mb-1">{{this.PackageName}}</h4>
+                        <p class="text-gray-600 mb-2">
+                            <i class="fas fa-map-marker-alt text-red-500 mr-1"></i> {{this.PackageLocation}}
+                        </p>
+                        <p class="text-gray-500 text-sm mb-4 truncate">
+                            {{#if this.PackageDetails}}
+                                {{this.PackageDetails}}
+                            {{else}}
+                                No description available.
+                            {{/if}}
+                        </p>
+                        <div class="flex justify-between items-center">
+                            <div class="text-xl font-bold text-purple-600">₹{{this.PackagePrice}}</div>
+                            <div class="flex space-x-2">
+                                <a href="/admin/packages/edit/{{this.PackageId}}" class="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700">
+                                    Edit
+                                </a>
+                                <button onclick="confirmDelete('{{this.PackageId}}', '{{this.PackageName}}')" class="bg-red-600 text-white px-3 py-1 rounded text-sm hover:bg-red-700">
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            {{else}}
+                <div class="col-span-3 py-8 text-center text-gray-500">
+                    <div class="flex flex-col items-center justify-center space-y-3">
+                        <i class="fas fa-box-open text-4xl text-gray-400"></i>
+                        <p>No packages found.</p>
+                        <p>Add a new package to get started!</p>
+                    </div>
+                </div>
+            {{/if}}
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
+        <h3 class="text-xl font-bold mb-4">Confirm Deletion</h3>
+        <p class="mb-6">Are you sure you want to delete <span id="packageName" class="font-semibold"></span>? This action cannot be undone.</p>
+        <div class="flex justify-end space-x-3">
+            <button onclick="closeDeleteModal()" class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition">
+                Cancel
+            </button>
+            <form id="deleteForm" action="/admin/packages/delete" method="POST">
+                <input type="hidden" id="packageId" name="packageId">
+                <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition">
+                    Delete
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Confirm delete functions
+    function confirmDelete(id, name) {
+        document.getElementById('packageName').textContent = name;
+        document.getElementById('packageId').value = id;
+        document.getElementById('deleteModal').classList.remove('hidden');
+    }
+
+    function closeDeleteModal() {
+        document.getElementById('deleteModal').classList.add('hidden');
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+        const modal = document.getElementById('deleteModal');
+        if (event.target === modal) {
+            closeDeleteModal();
+        }
+    }
+</script> 

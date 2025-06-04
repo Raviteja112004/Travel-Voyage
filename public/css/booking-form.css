@@ -1,0 +1,249 @@
+/* Elegant Booking Form Styling */
+
+/* Main form container */
+.booking-container {
+  background-color: #ffffff;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Form headings */
+.booking-container h2 {
+  color: #1f2937;
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.booking-container p {
+  color: #6b7280;
+  margin-bottom: 1.5rem;
+}
+
+/* Form layout and structure */
+.booking-form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .booking-form {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Field groups */
+.form-field {
+  margin-bottom: 1.5rem;
+}
+
+/* Form labels */
+.form-field label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #4b5563;
+}
+
+/* Input styling */
+.form-field input[type="text"],
+.form-field input[type="email"],
+.form-field input[type="tel"],
+.form-field input[type="number"],
+.form-field input[type="date"],
+.form-field select,
+.form-field textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  background-color: #f9fafb;
+  font-size: 1rem;
+  color: #374151;
+  transition: all 0.2s;
+}
+
+/* Input focus state */
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  background-color: #fff;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* Date input specific styling */
+.date-field {
+  position: relative;
+}
+
+/* Remove the custom calendar icon */
+.date-field::after {
+  display: none; /* This removes the custom calendar icon */
+}
+
+/* Style just the date input */
+.form-field input[type="date"] {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  background-color: #f9fafb;
+  font-size: 1rem;
+  color: #374151;
+  transition: all 0.2s;
+  /* Don't override the browser's calendar icon */
+  padding-right: 1rem;
+}
+
+/* Chrome-specific styling to make the calendar icon look better */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+/* Select styling */
+.form-field select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-position: right 0.75rem center;
+  background-repeat: no-repeat;
+  background-size: 1.25em 1.25em;
+  padding-right: 2.5rem;
+}
+
+/* Textarea styling */
+.form-field textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Full-width fields */
+.full-width {
+  grid-column: 1 / -1;
+}
+
+/* Hotel selection area */
+.hotel-selection {
+  grid-column: 1 / -1;
+  background-color: #f0f7ff;
+  border-radius: 0.5rem;
+  border-left: 4px solid #3b82f6;
+  padding: 1.25rem;
+  margin: 0.5rem 0 1.5rem;
+}
+
+.hotel-selection label {
+  color: #1e40af;
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Submit button */
+.book-btn {
+  grid-column: 1 / -1;
+  background: linear-gradient(to right, #3b82f6, #2563eb);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  padding: 0.875rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+  margin-top: 1rem;
+}
+
+.book-btn:hover {
+  background: linear-gradient(to right, #2563eb, #1d4ed8);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(37, 99, 235, 0.25);
+}
+
+.book-btn:active {
+  transform: translateY(0);
+}
+
+/* Booking summary section */
+.booking-summary {
+  grid-column: 1 / -1;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  margin: 1rem 0;
+}
+
+.booking-summary h3 {
+  color: #1f2937;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  color: #4b5563;
+  font-size: 0.95rem;
+}
+
+.summary-item.total {
+  font-weight: 700;
+  font-size: 1.125rem;
+  color: #1f2937;
+  padding-top: 0.75rem;
+  margin-top: 0.75rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* Hotel details preview */
+.hotel-preview {
+  grid-column: 1 / -1;
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1.25rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(0.5rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Special request textarea */
+.special-requests {
+  grid-column: 1 / -1;
+}
+
+/* Form validation styling */
+.form-field input:invalid:not(:focus):not(:placeholder-shown),
+.form-field select:invalid:not(:focus):not(:placeholder-shown) {
+  border-color: #ef4444;
+  background-color: #fef2f2;
+}
+
+.form-field input:invalid:focus:not(:placeholder-shown),
+.form-field select:invalid:focus:not(:placeholder-shown) {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+} 

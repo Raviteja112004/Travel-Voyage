@@ -1,0 +1,95 @@
+<header class="bg-white shadow">
+    <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center">
+            <a href="/" class="text-blue-600 text-2xl font-bold">VoyageTMS</a>
+        </div>
+        
+        <div class="hidden md:flex items-center space-x-6">
+            <a href="/" class="hover:text-blue-600">Home</a>
+            <a href="/packages" class="hover:text-blue-600">Tour Packages</a>
+            <a href="/about" class="hover:text-blue-600">About</a>
+            <a href="/services" class="hover:text-blue-600">Services</a>
+            <a href="/contact" class="hover:text-blue-600">Contact</a>
+            <a href="/enquiry" class="hover:text-blue-600">Enquiry</a>
+        </div>
+        
+        <div class="hidden md:flex items-center space-x-4">
+            {{#if isLoggedIn}}
+                <div class="relative inline-block text-left dropdown">
+                    <button class="flex items-center space-x-1 text-blue-600 hover:text-blue-800">
+                        <span>{{userName}}</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none hidden dropdown-menu">
+                        <div class="py-1">
+                            <a href="/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">My Profile</a>
+                            <a href="/logout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            {{else}}
+                <a href="/login" class="px-4 py-2 text-blue-600 border border-blue-600 rounded hover:bg-blue-600 hover:text-white transition duration-300">Login</a>
+                <a href="/signup" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-300">Sign Up</a>
+            {{/if}}
+        </div>
+        
+        <!-- Mobile menu button -->
+        <div class="md:hidden flex items-center">
+            <button class="mobile-menu-button">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile menu -->
+    <div class="mobile-menu hidden md:hidden">
+        <a href="/" class="block py-2 px-6 hover:bg-blue-50">Home</a>
+        <a href="/packages" class="block py-2 px-6 hover:bg-blue-50">Tour Packages</a>
+        <a href="/about" class="block py-2 px-6 hover:bg-blue-50">About</a>
+        <a href="/services" class="block py-2 px-6 hover:bg-blue-50">Services</a>
+        <a href="/contact" class="block py-2 px-6 hover:bg-blue-50">Contact</a>
+        <a href="/enquiry" class="block py-2 px-6 hover:bg-blue-50">Enquiry</a>
+        {{#if isLoggedIn}}
+            <a href="/profile" class="block py-2 px-6 hover:bg-blue-50">My Profile</a>
+            <a href="/logout" class="block py-2 px-6 hover:bg-blue-50">Logout</a>
+        {{else}}
+            <a href="/login" class="block py-2 px-6 hover:bg-blue-50">Login</a>
+            <a href="/signup" class="block py-2 px-6 hover:bg-blue-50">Sign Up</a>
+        {{/if}}
+    </div>
+</header>
+
+<script>
+    // Mobile menu toggle
+    document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuButton = document.querySelector('.mobile-menu-button');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        
+        if (mobileMenuButton) {
+            mobileMenuButton.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+        
+        // Dropdown toggle
+        const dropdownToggle = document.querySelector('.dropdown button');
+        const dropdownMenu = document.querySelector('.dropdown-menu');
+        
+        if (dropdownToggle) {
+            dropdownToggle.addEventListener('click', function() {
+                dropdownMenu.classList.toggle('hidden');
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!dropdownToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                    dropdownMenu.classList.add('hidden');
+                }
+            });
+        }
+    });
+</script> 

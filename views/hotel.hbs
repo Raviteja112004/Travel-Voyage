@@ -1,0 +1,31 @@
+<div class="card shadow-sm mt-4">
+  <div class="card-header bg-primary text-white">
+    <h4 class="mb-0">Enquire About This Hotel</h4>
+  </div>
+  <div class="card-body">
+    <form action="/submit-hotel-enquiry" method="POST">
+      <input type="hidden" name="hotelId" value="{{hotel.Hotel_id}}">
+      <input type="hidden" name="hotelName" value="{{hotel.HotelName}}">
+      
+      <div class="mb-3">
+        <label for="subject" class="form-label">Subject</label>
+        <input type="text" class="form-control" id="subject" name="subject" 
+               value="Enquiry about {{hotel.HotelName}}" required>
+      </div>
+      
+      <div class="mb-3">
+        <label for="email" class="form-label">Your Email</label>
+        <input type="email" class="form-control" id="email" name="email" 
+               value="{{userEmail}}" {{#if isLoggedIn}}readonly{{/if}} required>
+      </div>
+      
+      <div class="mb-3">
+        <label for="description" class="form-label">Your Message</label>
+        <textarea class="form-control" id="description" name="description" 
+                  rows="4" required></textarea>
+      </div>
+      
+      <button type="submit" class="btn btn-primary w-100">Submit Enquiry</button>
+    </form>
+  </div>
+</div> 

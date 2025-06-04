@@ -1,0 +1,337 @@
+<!-- Top Bar -->
+<div class="top-bar">
+  <div class="container">
+    <div class="contact-info">
+      <span>Call Us: 123-4567890</span>
+      <span>support@voyagetms.com</span>
+    </div>
+    <div class="user-actions">
+      {{> user-dropdown}}
+    </div>
+  </div>
+</div>
+  
+<!-- Header -->
+<header>
+  <div class="container">
+    <div class="nav-container">
+      <div class="logo">
+        <a href="/">
+          <span>Voyage</span> <span>TMS</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  .bookings-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+  }
+  
+  .bookings-header {
+    margin-bottom: 30px;
+  }
+  
+  .bookings-header h1 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .booking-tabs {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 30px;
+  }
+  
+  .booking-tab {
+    padding: 12px 20px;
+    cursor: pointer;
+    font-weight: 500;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s;
+  }
+  
+  .booking-tab.active {
+    border-bottom-color: #4CAF50;
+    color: #4CAF50;
+  }
+  
+  .booking-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 20px;
+  }
+  
+  .booking-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: transform 0.3s;
+  }
+  
+  .booking-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .booking-image {
+    height: 180px;
+    overflow: hidden;
+  }
+  
+  .booking-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .booking-details {
+    padding: 20px;
+  }
+  
+  .booking-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .booking-meta {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+  }
+  
+  .booking-meta-item {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #666;
+    margin-right: 15px;
+    margin-bottom: 5px;
+  }
+  
+  .booking-meta-item i {
+    margin-right: 5px;
+    color: #4CAF50;
+  }
+  
+  .booking-status {
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    padding: 6px 12px;
+    display: inline-flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 15px;
+  }
+  
+  .status-confirmed {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+  }
+  
+  .status-completed {
+    background-color: #e3f2fd;
+    color: #1565c0;
+  }
+  
+  .status-upcoming {
+    background-color: #fff8e1;
+    color: #f57f17;
+  }
+  
+  .booking-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+  }
+  
+  .booking-btn {
+    flex: 1;
+    padding: 8px 12px;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s;
+  }
+  
+  .btn-details {
+    background-color: #f5f5f5;
+    color: #333;
+  }
+  
+  .btn-details:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .btn-cancel {
+    background-color: #ffebee;
+    color: #c62828;
+  }
+  
+  .btn-cancel:hover {
+    background-color: #ffcdd2;
+  }
+  
+  .no-bookings {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+  
+  .no-bookings i {
+    font-size: 48px;
+    color: #ccc;
+    margin-bottom: 20px;
+    display: block;
+  }
+  
+  .no-bookings h3 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .no-bookings p {
+    color: #666;
+    margin-bottom: 20px;
+  }
+  
+  .browse-btn {
+    display: inline-block;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+  }
+  
+  .browse-btn:hover {
+    background-color: #45a049;
+  }
+</style>
+
+<div class="bookings-container">
+  <div class="bookings-header">
+    <h1>My Bookings</h1>
+  </div>
+  
+  <div class="booking-tabs">
+    <div class="booking-tab active">All</div>
+    <div class="booking-tab">Upcoming</div>
+    <div class="booking-tab">Completed</div>
+    <div class="booking-tab">Cancelled</div>
+  </div>
+  
+  <div class="booking-cards">
+    <div class="booking-card">
+      <div class="booking-image">
+        <img src="https://placehold.co/800x500" alt="Bali Beach Paradise">
+      </div>
+      <div class="booking-details">
+        <h3 class="booking-title">Bali Beach Paradise</h3>
+        <div class="booking-meta">
+          <div class="booking-meta-item">
+            <i>📅</i> 15 Aug - 22 Aug, 2025
+          </div>
+          <div class="booking-meta-item">
+            <i>👥</i> 2 Travelers
+          </div>
+        </div>
+        <div class="booking-status status-confirmed">
+          <i>✓</i> Confirmed
+        </div>
+        <div class="booking-actions">
+          <a href="/booking-details/1" class="booking-btn btn-details">View Details</a>
+          <a href="/cancel-booking/1" class="booking-btn btn-cancel">Cancel</a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="booking-card">
+      <div class="booking-image">
+        <img src="https://placehold.co/800x500" alt="Swiss Alps Adventure">
+      </div>
+      <div class="booking-details">
+        <h3 class="booking-title">Swiss Alps Adventure</h3>
+        <div class="booking-meta">
+          <div class="booking-meta-item">
+            <i>📅</i> 10 Oct - 20 Oct, 2025
+          </div>
+          <div class="booking-meta-item">
+            <i>👥</i> 2 Travelers
+          </div>
+        </div>
+        <div class="booking-status status-upcoming">
+          <i>🕒</i> Upcoming
+        </div>
+        <div class="booking-actions">
+          <a href="/booking-details/2" class="booking-btn btn-details">View Details</a>
+          <a href="/cancel-booking/2" class="booking-btn btn-cancel">Cancel</a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="booking-card">
+      <div class="booking-image">
+        <img src="https://placehold.co/800x500" alt="Kerala Backwaters">
+      </div>
+      <div class="booking-details">
+        <h3 class="booking-title">Kerala Backwaters Bliss</h3>
+        <div class="booking-meta">
+          <div class="booking-meta-item">
+            <i>📅</i> 5 Mar - 12 Mar, 2025
+          </div>
+          <div class="booking-meta-item">
+            <i>👥</i> 4 Travelers
+          </div>
+        </div>
+        <div class="booking-status status-completed">
+          <i>✓</i> Completed
+        </div>
+        <div class="booking-actions">
+          <a href="/booking-details/3" class="booking-btn btn-details">View Details</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="copyright">
+      <p>&copy; 2025 Voyage Tourism Management System. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const tabs = document.querySelectorAll('.booking-tab');
+    
+    tabs.forEach(tab => {
+      tab.addEventListener('click', function() {
+        // Remove active class from all tabs
+        tabs.forEach(t => t.classList.remove('active'));
+        
+        // Add active class to clicked tab
+        this.classList.add('active');
+        
+        // Filter logic would go here in a real application
+      });
+    });
+  });
+</script> 

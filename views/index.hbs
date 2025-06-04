@@ -1,0 +1,476 @@
+<!-- Updated index.hbs with blue theme -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoyageTMS - Discover the World</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #3b82f6;
+            --dark-color: #1e3a8a;
+            --text-color: #27374D;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+        }
+        
+        .hero-section {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1530789253388-582c481c54b0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 90vh;
+            min-height: 500px;
+        }
+        
+        .section-title {
+            text-transform: uppercase;
+            font-weight: 700;
+            font-size: 2.5rem;
+            position: relative;
+            color: #27374D;
+            text-align: center;
+        }
+        
+        .section-subtitle {
+            color: #3b82f6;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.875rem;
+            text-align: center;
+            margin-bottom: 0.75rem;
+        }
+        
+        .placeholder-text {
+            color: #666;
+            font-size: 1rem;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+        }
+        
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-auto-rows: 250px;
+            grid-gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .gallery-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 0.75rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .gallery-item:hover .gallery-img {
+            transform: scale(1.05);
+        }
+        
+        .package-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            margin-bottom: 2rem;
+        }
+        
+        .package-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .package-img {
+            width: 40%;
+            object-fit: cover;
+        }
+        
+        .package-content {
+            padding: 1.5rem;
+            width: 60%;
+        }
+        
+        .package-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #27374D;
+        }
+        
+        .package-desc {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        .price-box {
+            background-color: #3b82f6;
+            color: white;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+        
+        .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            display: block;
+            text-align: center;
+        }
+        
+        .per-person {
+            font-size: 0.875rem;
+            display: block;
+            text-align: center;
+        }
+        
+        .package-meta {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            color: #666;
+            font-size: 0.875rem;
+        }
+        
+        .meta-item i {
+            margin-right: 0.5rem;
+            color: #3b82f6;
+        }
+        
+        .destination-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            height: 400px;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .destination-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .destination-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .destination-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0 0 0.75rem 0.75rem;
+        }
+        
+        .destination-location {
+            text-transform: uppercase;
+            color: #3b82f6;
+            font-weight: 600;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .destination-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #27374D;
+        }
+        
+        .rating {
+            color: #FFD700;
+            margin-top: 0.5rem;
+        }
+        
+        .book-now-btn {
+            background-color: #3b82f6;
+            color: white;
+            border-radius: 50px;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .book-now-btn:hover {
+            background-color: #2563eb;
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .package-card {
+                flex-direction: column;
+            }
+            
+            .package-img {
+                width: 100%;
+                height: 200px;
+            }
+            
+            .package-content {
+                width: 100%;
+            }
+            
+            .image-gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero-section flex items-center justify-center">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-5xl md:text-6xl font-bold text-white leading-tight mb-4" data-aos="fade-up" data-aos-duration="1000">Discover Your Dream Destinations</h1>
+            <p class="text-xl text-white opacity-90 mb-8 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="200">Experience unforgettable journeys to the world's most breathtaking locations with our premium travel packages.</p>
+            
+            <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4" data-aos="fade-up" data-aos-delay="300">
+                <a href="/packages" class="book-now-btn">
+                    Explore Packages
+                </a>
+                <a href="#popular-destinations" class="bg-transparent border-2 border-white text-white font-bold py-3 px-8 rounded-full hover:bg-white hover:text-blue-600 transition duration-300 text-center">
+                    Popular Destinations
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Photo Gallery Section -->
+    <section class="py-20 px-6">
+        <div class="container mx-auto">
+            <p class="section-subtitle" data-aos="fade-up">Photo Gallery</p>
+            <h2 class="section-title mb-4" data-aos="fade-up" data-aos-delay="100">PHOTOS FROM TRAVELLERS</h2>
+            <p class="placeholder-text" data-aos="fade-up" data-aos-delay="200">Explore stunning moments captured by our travelers as they journey through incredible destinations around the world.</p>
+            
+            <div class="image-gallery" data-aos="fade-up" data-aos-delay="300">
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1527631746610-bca00a040d60?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80" alt="Travel Photo" class="gallery-img">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1502791451862-7bd8c1df43a7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1064&q=80" alt="Travel Photo" class="gallery-img">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1517760444937-f6397edcbbcd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Travel Photo" class="gallery-img">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1503220317375-aaad61436b1b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Travel Photo" class="gallery-img">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1504609773096-104ff2c73ba4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Travel Photo" class="gallery-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Packages Section -->
+    {{!-- <section class="py-20 px-6 bg-gray-50">
+        <div class="container mx-auto">
+            <p class="section-subtitle" data-aos="fade-up">Popular Packages</p>
+            <h2 class="section-title mb-4" data-aos="fade-up" data-aos-delay="100">CHECKOUT OUR PACKAGES</h2>
+            <p class="placeholder-text" data-aos="fade-up" data-aos-delay="200">Discover our carefully curated travel packages designed to offer unforgettable experiences at the world's most captivating destinations.</p>
+            
+            <div class="mt-12" data-aos="fade-up" data-aos-delay="300">
+                <!-- Package Card 1 -->
+                <div class="package-card">
+                    <img src="https://images.unsplash.com/photo-1540202404-a2f29016b523?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3133&q=80" alt="Beach Holiday" class="package-img">
+                    <div class="package-content">
+                        <h3 class="package-title">EXPERIENCE THE GREAT HOLIDAY ON BEACH</h3>
+                        <p class="package-desc">Indulge in the ultimate beach getaway with pristine waters, white sandy beaches, and luxury accommodations. Perfect for relaxation and adventure.</p>
+                        
+                        <div class="package-meta">
+                            <div class="meta-item">
+                                <i class="far fa-clock"></i>
+                                <span>7D/6N</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-user-friends"></i>
+                                <span>pax: 10</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Malaysia</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between items-end mt-4">
+                            <div class="price-box">
+                                <span class="price">$750</span>
+                                <span class="per-person">/ per person</span>
+                            </div>
+                            <a href="/packages" class="book-now-btn">BOOK NOW</a>
+                        </div>
+                    </div>
+                </div> --}}
+                
+                <!-- Package Card 2 -->
+                {{!-- <div class="package-card mt-8">
+                    <img src="https://images.unsplash.com/photo-1590523278191-304e8b4b9225?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1742&q=80" alt="Mountain Adventure" class="package-img">
+                    <div class="package-content">
+                        <h3 class="package-title">SUMMER HOLIDAY TO THE OXOLOTAN RIVER</h3>
+                        <p class="package-desc">Embark on an exciting river adventure through breathtaking landscapes, enjoy water activities, and experience local culture and cuisine.</p>
+                        
+                        <div class="package-meta">
+                            <div class="meta-item">
+                                <i class="far fa-clock"></i>
+                                <span>5D/4N</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-user-friends"></i>
+                                <span>pax: 8</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Costa Rica</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between items-end mt-4">
+                            <div class="price-box">
+                                <span class="price">$520</span>
+                                <span class="per-person">/ per person</span>
+                            </div>
+                            <a href="/packages" class="book-now-btn">BOOK NOW</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> --}}
+
+    <!-- Popular Destinations -->
+    <section id="popular-destinations" class="py-20 px-6">
+        <div class="container mx-auto">
+            <p class="section-subtitle" data-aos="fade-up">Uncover Place</p>
+            <h2 class="section-title mb-4" data-aos="fade-up" data-aos-delay="100">POPULAR DESTINATION</h2>
+            <p class="placeholder-text" data-aos="fade-up" data-aos-delay="200">Explore our selection of the most sought-after destinations that offer extraordinary experiences and create lasting memories.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+                <!-- Darjeeling Card -->
+                <div class="destination-card" data-aos="fade-up" data-aos-delay="100">
+                    <img src="/images/darjeeling.jpg" alt="Darjeeling" class="destination-img">
+                    <div class="destination-overlay">
+                        <p class="destination-location">Darjeeling</p>
+                        <h3 class="destination-name">The Queen of Hills</h3>
+                        <p class="text-gray-600 text-sm">Famous for its tea plantations, toy train, and views of Kanchenjunga</p>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Himalayas Card -->
+                <div class="destination-card" data-aos="fade-up" data-aos-delay="200">
+                    <img src="/images/himalayas.jpg" alt="Himalayas" class="destination-img">
+                    <div class="destination-overlay">
+                        <p class="destination-location">Himalayas</p>
+                        <h3 class="destination-name">The Roof of the World</h3>
+                        <p class="text-gray-600 text-sm">Experience the grandeur of the world's highest mountain range</p>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Kashmir Card -->
+                <div class="destination-card" data-aos="fade-up" data-aos-delay="300">
+                    <img src="/images/kashmir.jpg" alt="Kashmir" class="destination-img">
+                    <div class="destination-overlay">
+                        <p class="destination-location">Kashmir</p>
+                        <h3 class="destination-name">Paradise on Earth</h3>
+                        <p class="text-gray-600 text-sm">Discover the enchanting beauty of Dal Lake and Gulmarg</p>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-blue-600">
+        <div class="container mx-auto px-6">
+            <div class="text-center" data-aos="zoom-in">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Ready for Unforgettable Travel?</h2>
+                <p class="text-xl text-white opacity-90 mb-8 max-w-3xl mx-auto">Discover amazing destinations and create memories that will last a lifetime. Book your next adventure with VoyageTMS today!</p>
+                <a href="/packages" class="inline-block bg-white text-blue-600 font-bold py-3 px-8 rounded-full hover:bg-gray-100 transition duration-300 transform hover:scale-105">
+                    Book Your Trip Now
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize AOS animations
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true,
+                offset: 50
+            });
+            
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        window.scrollTo({
+                            top: target.offsetTop - 80, // Adjust for header height
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

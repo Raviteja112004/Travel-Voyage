@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voyage TMS - Travel Agency</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: '#1e88e5',
+              secondary: '#4CAF50'
+            }
+          }
+        }
+      }
+    </script>
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/css/about.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <!-- Toastr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+
+        /* Header Styles */
+        header {
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px 0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo a {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .logo span:first-child {
+            color: #1e88e5;
+        }
+
+        .logo span:last-child {
+            color: #4CAF50;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #1e88e5;
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .auth-btn {
+            padding: 10px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .auth-btn i {
+            font-size: 16px;
+        }
+
+        .login-btn {
+            background-color: #1e88e5;
+            color: white;
+            border: 1px solid #1e88e5;
+        }
+
+        .login-btn:hover {
+            background-color: #1565c0;
+            border-color: #1565c0;
+        }
+
+        .signup-btn {
+            background-color: rgb(255, 255, 255);
+            color: #1e88e5;
+            border: 1px solid #1e88e5;
+        }
+
+        .signup-btn:hover {
+            background-color: #1e88e5;
+            color: white;
+        }
+
+        .admin-login-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: 1px solid #4CAF50;
+        }
+
+        .admin-login-btn:hover {
+            background-color: #388E3C;
+            border-color: #388E3C;
+        }
+
+        /* User dropdown menu styles */
+        .user-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .user-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #fff;
+            color: #1e88e5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .user-icon:hover {
+            transform: scale(1.05);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .dropdown-menu {
+            position: absolute;
+            right: 0;
+            top: 45px;
+            background-color: white;
+            min-width: 220px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            border-radius: 8px;
+            padding: 0;
+            z-index: 1000;
+            opacity: 0; /* Initially hidden */
+            visibility: hidden; /* Initially hidden */
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .user-dropdown:hover .dropdown-menu {
+            opacity: 1; /* Show on hover */
+            visibility: visible; /* Show on hover */
+            transform: translateY(0);
+        }
+        
+        .dropdown-menu .user-info {
+            padding: 15px;
+            background: linear-gradient(135deg, #1e88e5, #1565c0);
+            color: white;
+        }
+        
+        .dropdown-menu .welcome-message {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        
+        .dropdown-menu .user-email {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+        
+        .dropdown-menu a {
+            color: #333;
+            padding: 12px 15px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.2s;
+        }
+        
+        .dropdown-menu a:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .dropdown-menu a i {
+            margin-right: 10px;
+            font-size: 16px;
+            color: #1e88e5;
+        }
+        
+        .dropdown-menu a:hover i {
+            color: #1565c0;
+        }
+        
+        .dropdown-divider {
+            height: 1px;
+            background-color: #eee;
+            margin: 5px 0;
+        }
+
+        /* Footer Styles */
+        footer {
+            background: #222;
+            color: #ccc;
+            padding: 20px 0;
+            margin-top: auto;
+            text-align: center;
+        }
+
+        /* Toastr Custom Styles */
+        .toast {
+            border-radius: 8px !important;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15) !important;
+        }
+
+        .toast-success {
+            border-left: 5px solid #28a745 !important;
+        }
+
+        .toast-error {
+            border-left: 5px solid #dc3545 !important;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="nav-container">
+                <div class="logo">
+                    <a href="/">
+                        <span>Voyage</span>
+                        <span>TMS</span>
+                    </a>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="/packages">Tour Packages</a></li>
+                        {{!-- <li><a href="/services">Services</a></li> --}}
+                        <li><a href="/contact">Contact</a></li>
+                        <li><a href="/enquiry">Enquiry</a></li>
+                    </ul>
+                </nav>
+                <div class="user-actions h-10">
+                    {{> user-dropdown}}
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        {{{body}}}
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Voyage Tourism Management System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- jQuery and Toastr Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <script>
+        function showToast(type, message) {
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true,
+                "positionClass": "toast-top-center",
+                "timeOut": "3000",
+                "extendedTimeOut": "1000"
+            };
+            toastr[type](message);
+        }
+
+        $(document).ready(function () {
+            const params = new URLSearchParams(window.location.search);
+            if (params.has("success")) showToast("success", params.get("success"));
+            if (params.has("error")) showToast("error", params.get("error"));
+        });
+
+        toastr.options = {
+            "closeButton": true,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "timeOut": "3000"
+        };
+
+        // Check for logout success message
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('logoutSuccess')) {
+            toastr.success("Admin logout successful!");
+        }
+    </script>
+</body>
+</html>

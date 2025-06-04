@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice #{{booking.BookingID}} | Voyage TMS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .no-print {
+                display: none;
+            }
+        }
+        .invoice-box {
+            max-width: 210mm;
+            margin: auto;
+            padding: 30px;
+            border: 1px solid #eee;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+            font-size: 14px;
+            line-height: 24px;
+            font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+            color: #555;
+            background-color: white;
+        }
+        .invoice-header {
+            border-bottom: 1px solid #ddd;
+        }
+        .invoice-details {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .invoice-table th {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            background-color: #f8f9fa;
+            text-align: left;
+        }
+        .invoice-table td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .invoice-total {
+            margin-top: 20px;
+            border-top: 1px solid #ddd;
+            text-align: right;
+        }
+        .invoice-total table {
+            margin-left: auto;
+            width: 300px;
+        }
+        .invoice-total table td {
+            padding: 5px 10px;
+        }
+        .terms {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #777;
+        }
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 8em;
+            color: rgba(0, 0, 0, 0.05);
+            pointer-events: none;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div class="container mx-auto py-8 px-4">
+        <!-- Action Buttons - Not Part of PDF -->
+        <div class="mb-6 flex justify-between items-center no-print">
+            <h1 class="text-2xl font-bold">Invoice for Booking #{{booking.BookingID}}</h1>
+            <div class="flex space-x-3">
+                <button onclick="window.print()" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md flex items-center">
+                    <i class="fas fa-print mr-2"></i> Print Invoice
+                </button>
+                <button onclick="generatePDF()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md flex items-center">
+                    <i class="fas fa-file-pdf mr-2"></i> Download PDF
+                </button>
+                <a href="/booking-details/{{booking.BookingID}}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md flex items-center">
+                    <i class="fas fa-arrow-left mr-2"></i> Back to Booking
+                </a>
+            </div>
+        </div>
+
+        <!-- Invoice Document - This gets converted to PDF -->
+        <div id="invoice-document" class="invoice-box">
+            <div class="watermark">RECEIPT</div>
+            
+            <!-- Invoice Header -->
+            <div class="invoice-header pb-4 flex justify-between items-start">
+                <div>
+                    <h2 class="text-3xl font-bold text-blue-600">INVOICE</h2>
+                    <p class="text-gray-600">Invoice #: WL-{{booking.BookingID}}</p>
+                    <p class="text-gray-600">Date: {{formatDate today}}</p>
+                </div>
+                <div class="text-right">
+                    <div class="flex items-center justify-end mb-2">
+                        <h3 class="text-2xl font-bold mr-2">Voyage TMS</h3>
+                        <i class="fas fa-globe text-blue-600 text-2xl"></i>
+                    </div>
+                    <p>123 Travel Street, Tourism Tower</p>
+                    <p>Mumbai, Maharashtra 400001</p>
+                    <p>India</p>
+                    <p>Email: support@Voyage TMS.com</p>
+                    <p>Phone: +91 98765 43210</p>
+                </div>
+            </div>
+
+            <!-- Billing Information -->
+            <div class="invoice-details grid grid-cols-2 gap-4 mt-8">
+                <div>
+                    <h3 class="text-lg font-bold mb-2">Billed To:</h3>
+                    <p class="font-bold">{{user.Name}}</p>
+                    <p>{{user.Email}}</p>
+                    <p>{{user.Phone}}</p>
+                    <p>{{user.Address}}</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-2">Travel Package:</h3>
+                    <p class="font-bold">{{package.PackageName}}</p>
+                    <p>{{package.PackageLocation}}</p>
+                    <p>Duration: {{package.Duration}}</p>
+                    <p>Travel Dates: {{formatDate booking.FromDate}} - {{formatDate booking.ToDate}}</p>
+                </div>
+            </div>
+
+            <!-- Invoice Items -->
+            <div class="mt-8">
+                <h3 class="text-lg font-bold mb-2">Invoice Details:</h3>
+                <table class="invoice-table">
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th>Qty</th>
+                            <th>Unit Price</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                {{package.PackageName}} - {{package.Duration}}<br>
+                                <span class="text-gray-500">{{package.PackageLocation}}</span>
+                            </td>
+                            <td>{{booking.NumberOfPeople}}</td>
+                            <td>{{formatCurrency package.PackagePrice}}</td>
+                            <td>{{formatCurrency baseAmount}}</td>
+                        </tr>
+                        {{#if accommodation}}
+                        <tr>
+                            <td>
+                                Accommodation<br>
+                                <span class="text-gray-500">{{package.Accommodation}}</span>
+                            </td>
+                            <td>1</td>
+                            <td>Included</td>
+                            <td>₹0.00</td>
+                        </tr>
+                        {{/if}}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Invoice Totals -->
+            <div class="invoice-total pt-4">
+                <table>
+                    <tr>
+                        <td class="text-right">Subtotal:</td>
+                        <td class="text-right font-semibold">{{formatCurrency baseAmount}}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">GST (18%):</td>
+                        <td class="text-right font-semibold">{{formatCurrency gstAmount}}</td>
+                    </tr>
+                    <tr class="bg-gray-100">
+                        <td class="text-right font-bold">Total:</td>
+                        <td class="text-right font-bold">{{formatCurrency totalAmount}}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">Payment Status:</td>
+                        <td class="text-right font-semibold">
+                            {{#if (eq booking.Status 'Confirmed')}}
+                            <span class="text-green-600">PAID</span>
+                            {{else}}
+                            <span class="text-yellow-600">PENDING</span>
+                            {{/if}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Payment Information -->
+            <div class="mt-8 border-t pt-4">
+                <h3 class="text-lg font-bold mb-2">Payment Information:</h3>
+                <div class="bg-gray-50 p-4 rounded">
+                    <p class="font-semibold">Payment Method: {{booking.PaymentMethod}}</p>
+                    {{#if (eq booking.Status 'Pending')}}
+                    <p class="mt-2">Please make payment to the following account:</p>
+                    <p>Bank: Voyage TMS Travel Bank</p>
+                    <p>Account Number: 1234567890</p>
+                    <p>IFSC Code: WLTB0000123</p>
+                    <p>Reference: WL-{{booking.BookingID}}</p>
+                    {{/if}}
+                </div>
+            </div>
+
+            <!-- Terms and Conditions -->
+            <div class="terms mt-8 border-t pt-4">
+                <h3 class="text-md font-bold mb-2">Terms & Conditions:</h3>
+                <ul class="list-disc ml-5 text-sm">
+                    <li>Full payment is required to confirm the booking.</li>
+                    <li>Cancellation charges apply as per our cancellation policy.</li>
+                    <li>This is a computer-generated invoice and does not require a signature.</li>
+                    <li>For any queries regarding this invoice, please contact our support team.</li>
+                </ul>
+            </div>
+
+            <!-- Footer -->
+            <div class="mt-8 pt-4 border-t text-center text-sm text-gray-500">
+                <p>Thank you for choosing Voyage TMS for your travel needs!</p>
+                <p>For assistance, please call +91 98765 43210 or email support@Voyage TMS.com</p>
+                <p>GST No: 22AAAAA0000A1Z5 | PAN: AAAAA0000A</p>
+            </div>
+        </div>
+    </div>
+
+    {{> footer}}
+
+    <script>
+        function generatePDF() {
+            // Hide header and footer for PDF generation
+            document.querySelectorAll('header, footer').forEach(elem => {
+                elem.style.display = 'none';
+            });
+            
+            const element = document.getElementById('invoice-document');
+            const opt = {
+                margin: [10, 10, 10, 10],
+                filename: 'Voyage TMS_Invoice_{{booking.BookingID}}.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            // Generate PDF
+            html2pdf().set(opt).from(element).save().then(() => {
+                // Show header and footer again after PDF generation
+                document.querySelectorAll('header, footer').forEach(elem => {
+                    elem.style.display = '';
+                });
+            });
+        }
+    </script>
+</body>
+</html> 

@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up - Voyage Tourism Management System</title>
+  <style>
+    /* Core styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      color: #333;
+      line-height: 1.6;
+      background: #f5f7fa;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    
+    .top-bar {
+      background: linear-gradient(135deg, #0072CE, #00A3E0);
+      color: white;
+      padding: 8px 0;
+      font-size: 14px;
+    }
+    
+    .top-bar .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .contact-info span {
+      margin-right: 20px;
+    }
+    
+    .user-actions a {
+      color: white;
+      text-decoration: none;
+      margin-left: 15px;
+      transition: opacity 0.3s;
+    }
+    
+    .user-actions a:hover {
+      opacity: 0.8;
+    }
+    
+    .nav-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 0;
+    }
+    
+    
+    /* Signup Section */
+    .signup-section {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 50px 0;
+    }
+    
+    .signup-container {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 600px;
+      overflow: hidden;
+    }
+    
+    .signup-header {
+      background: linear-gradient(135deg, #4CAF50, #45a049);
+      color: white;
+      padding: 25px 30px;
+      text-align: center;
+    }
+    
+    .signup-header h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    
+    .signup-header p {
+      opacity: 0.9;
+      font-size: 15px;
+    }
+    
+    .signup-form {
+      padding: 30px;
+    }
+    
+    .form-row {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .form-group {
+      flex: 1;
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #444;
+    }
+    
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 15px;
+      transition: border-color 0.3s;
+    }
+    
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: #4CAF50;
+      outline: none;
+    }
+    
+    .password-strength {
+      height: 5px;
+      background: #eee;
+      margin-top: 8px;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    
+    .password-strength-meter {
+      height: 100%;
+      width: 0%;
+      transition: width 0.3s, background-color 0.3s;
+    }
+    
+    .terms {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 25px;
+    }
+    
+    .terms input {
+      margin-right: 10px;
+      margin-top: 5px;
+    }
+    
+    .terms label {
+      font-size: 14px;
+      color: #666;
+    }
+    
+    .terms a {
+      color: #0072CE;
+      text-decoration: none;
+    }
+    
+    .terms a:hover {
+      text-decoration: underline;
+    }
+    
+    .submit-btn {
+      background: linear-gradient(135deg, #4CAF50, #45a049);
+      color: white;
+      border: none;
+      padding: 14px;
+      width: 100%;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 16px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+    }
+    
+    .signup-footer {
+      text-align: center;
+      padding: 20px 30px 30px;
+      border-top: 1px solid #eee;
+      background: #f9f9f9;
+    }
+    
+    .signup-footer p {
+      margin-bottom: 15px;
+      color: #666;
+    }
+    
+    .login-link {
+      color: #0072CE;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    
+    .login-link:hover {
+      text-decoration: underline;
+    }
+    
+    .signup-options {
+      margin-top: 25px;
+    }
+    
+    .signup-options p {
+      color: #666;
+      margin-bottom: 15px;
+      position: relative;
+    }
+    
+    .signup-options p:before,
+    .signup-options p:after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 35%;
+      height: 1px;
+      background: #ddd;
+    }
+    
+    .signup-options p:before {
+      left: 0;
+    }
+    
+    .signup-options p:after {
+      right: 0;
+    }
+    
+    .social-buttons {
+      display: flex;
+      gap: 15px;
+    }
+    
+    .social-btn {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background: white;
+      color: #333;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+      font-weight: 500;
+    }
+
+    
+    /* Account type selection */
+    .account-types {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+    
+    .account-type {
+      flex: 1;
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      padding: 15px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .account-type:hover {
+      border-color: #4CAF50;
+    }
+    
+    .account-type.selected {
+      border-color: #4CAF50;
+      background-color: rgba(76, 175, 80, 0.05);
+    }
+    
+    .account-type h3 {
+      margin: 10px 0;
+      color: #444;
+    }
+    
+    .account-type p {
+      font-size: 14px;
+      color: #666;
+    }
+    
+    /* Footer */
+    footer {
+      background: #222;
+      color: #ccc;
+      padding: 20px 0;
+      margin-top: auto;
+    }
+    
+    .copyright {
+      text-align: center;
+      font-size: 14px;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .form-row {
+        flex-direction: column;
+        gap: 0;
+      }
+      
+      .account-types {
+        flex-direction: column;
+      }
+      
+      .nav-container {
+        flex-direction: column;
+      }
+      
+      .top-bar .container {
+        flex-direction: column;
+        gap: 5px;
+      }
+      
+      .signup-container {
+        margin: 0 15px;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+</head>
+<body>
+  
+  <!-- Header -->
+  {{!-- <header>
+    <div class="container">
+      <div class="nav-container">
+        <div class="logo">
+          <a href="/">
+            <span>Voyage</span> <span>TMS</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header> --}}
+  
+  <!-- Signup Section -->
+  <section class="signup-section">
+    <div class="signup-container">
+      <div class="signup-header">
+        <h1>Create Your Account</h1>
+        <p>Join Voyage TMS and start your journey today</p>
+      </div>
+      
+      <form class="signup-form" action="/signup" method="post">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="first-name">First Name</label>
+            <input type="text" id="first-name" name="firstName" placeholder="Enter your first name" required>
+          </div>
+      
+          <div class="form-group">
+            <label for="last-name">Last Name</label>
+            <input type="text" id="last-name" name="lastName" placeholder="Enter your last name" required>
+          </div>
+        </div>
+      
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+        </div>
+      
+        <div class="form-row">
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="mobileNumber" placeholder="Enter your phone number">
+          </div>
+      
+          <div class="form-group">
+            <label for="country">Country</label>
+            <select id="country" name="country" required>
+              <option value="">Select your country</option>
+              <option value="us">United States</option>
+              <option value="ca">Canada</option>
+              <option value="uk">United Kingdom</option>
+              <option value="au">Australia</option>
+              <option value="in">India</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+        </div>
+      
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Create a strong password" required>
+        </div>
+      
+        <div class="form-group">
+          <label for="confirm-password">Confirm Password</label>
+          <input type="password" id="confirm-password" placeholder="Confirm your password" required>
+        </div>
+      
+        <div class="terms">
+          <input type="checkbox" id="terms" required>
+          <label for="terms">I agree to the <a href="#">Terms and Conditions</a>.</label>
+        </div>
+      
+        <button type="submit" class="submit-btn">Create Account</button>
+      </form>
+      
+      
+      <div class="signup-footer">
+        <p>Already have an account?</p>
+        <a href="/login" class="login-link">Log In</a>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="copyright">
+        <p>&copy; 2025 Voyage Tourism Management System. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Simple JavaScript to handle account type selection
+    document.addEventListener('DOMContentLoaded', function() {
+      const accountTypes = document.querySelectorAll('.account-type');
+      
+      accountTypes.forEach(type => {
+        type.addEventListener('click', function() {
+          // Remove selected class from all types
+          accountTypes.forEach(t => t.classList.remove('selected'));
+          
+          // Add selected class to clicked type
+          this.classList.add('selected');
+        });
+      });
+      const form = document.querySelector('.signup-form');
+    const password = document.getElementById('password');
+    const confirmPassword = document.getElementById('confirm-password');
+
+    form.addEventListener('submit', function(event) {
+      if (password.value !== confirmPassword.value) {
+        event.preventDefault(); // Prevent form submission
+        alert("Passwords do not match. Please try again.");
+        confirmPassword.focus();
+      }
+    });
+    });
+
+  </script>
+</body>
+</html>

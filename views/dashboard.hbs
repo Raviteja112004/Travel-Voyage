@@ -1,0 +1,72 @@
+<div class="dashboard-container mx-auto p-6 max-w-4xl bg-white rounded-lg shadow-md">
+  <div class="dashboard-header text-center mb-6">
+    <h1 class="text-2xl font-bold text-gray-800">Welcome to Your Dashboard</h1>
+    <p class="text-gray-600">Here you can manage your account and bookings.</p>
+  </div>
+
+  <div class="dashboard-grid grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="user-info-box bg-gray-100 p-4 rounded-lg shadow">
+      <div class="user-profile-header flex items-center mb-4">
+        <div class="user-avatar mr-4">
+          <img src="https://ui-avatars.com/api/?name={{user.FirstName}}+{{user.LastName}}&background=1E88E5&color=fff&size=100" alt="Profile Picture" class="rounded-full">
+        </div>
+        <div class="user-name-email">
+          <h2 class="text-xl font-semibold text-gray-800">{{user.FirstName}} {{user.LastName}}</h2>
+          <p class="text-gray-600">{{user.Email}}</p>
+        </div>
+      </div>
+      <p class="text-gray-600">Member Since: {{user.CreatedAt}}</p>
+      <a href="/change-password" class="mt-4 inline-block bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Change Password</a>
+    </div>
+
+    <div class="booking-info bg-gray-100 p-4 rounded-lg shadow">
+      <h2 class="text-xl font-semibold mb-4">Your Bookings</h2>
+      <table class="min-w-full bg-white border border-gray-300">
+        <thead>
+          <tr class="bg-gray-200">
+            <th class="py-2 px-4 border-b">Package</th>
+            <th class="py-2 px-4 border-b">Date</th>
+            <th class="py-2 px-4 border-b">Status</th>
+            <th class="py-2 px-4 border-b">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each bookings}}
+            <tr class="hover:bg-gray-100">
+              <td class="py-2 px-4 border-b">{{PackageName}}</td>
+              <td class="py-2 px-4 border-b">{{formatDate Date}}</td>
+              <td class="py-2 px-4 border-b">{{Status}}</td>
+              <td class="py-2 px-4 border-b">
+                <a href="/booking/{{ID}}" class="text-blue-500 hover:underline">View Details</a>
+                <a href="/cancel-booking/{{ID}}" class="text-red-500 hover:underline ml-2" onclick="return confirm('Are you sure you want to cancel this booking?');">Cancel</a>
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+      <a href="/book-package" class="btn btn-primary">Book a New Package</a>
+    </div>
+  </div>
+
+  <div class="dashboard-stats">
+    <div class="stat-card">
+      <i class="fas fa-plane"></i>
+      <h3>Total Trips</h3>
+      <p>{{totalTrips}}</p>
+    </div>
+    <div class="stat-card">
+      <i class="fas fa-hotel"></i>
+      <h3>Total Stays</h3>
+      <p>{{totalStays}}</p>
+    </div>
+    <div class="stat-card">
+      <i class="fas fa-bicycle"></i>
+      <h3>Total Activities</h3>
+      <p>{{totalActivities}}</p>
+    </div>
+  </div>
+</div>
+  
+<script>
+  // Add any necessary JavaScript here
+</script> 

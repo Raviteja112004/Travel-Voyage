@@ -1,0 +1,171 @@
+<div class="container-fluid px-4">
+  <h1 class="mt-4">Enquiries Management</h1>
+  
+  <div class="card mb-4">
+    <div class="card-header">
+      <i class="fas fa-table me-1"></i>
+      All Enquiries
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered" id="enquiriesTable">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>User</th>
+              <th>Package</th>
+              <th>Subject</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each enquiries}}
+            <tr>
+              <td>{{this.EnquiryID}}</td>
+              <td>{{this.Email}}</td>
+              <td>{{this.PackageName}}</td>
+              <td>{{this.Subject}}</td>
+              <td>{{formatDate this.EnquiryDate}}</td>
+              <td>
+                {{#if this.Response}}
+                  <span class="badge bg-success">Answered</span>
+                {{else}}
+                  <span class="badge bg-warning">Pending</span>
+                {{/if}}
+              </td>
+              <td>
+                <button class="btn btn-primary btn-sm" onclick="viewEnquiry({{this.EnquiryID}})">
+                  View/Reply
+                </button>
+              </td>
+            </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Enquiry Modal -->
+<div class="modal fade" id="enquiryModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Enquiry Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="enquiry-details mb-4">
+          <h6>User Information</h6>
+          <p class="user-email mb-1"></p>
+          <p class="enquiry-date mb-3"></p>
+          
+          <h6>Enquiry</h6>
+          <p class="enquiry-subject mb-1"></p>
+          <div class="enquiry-message p-3 bg-light rounded mb-4"></div>
+          
+          <div class="response-section">
+            <h6>Your Response</h6>
+            <textarea class="form-control response-text" rows="5"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="submitResponse()">Send Response</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+#enquiriesTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#enquiriesTable th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+}
+
+#enquiriesTable td, #enquiriesTable th {
+  padding: 12px;
+}
+
+.badge {
+  padding: 8px 12px;
+  border-radius: 4px;
+}
+
+.enquiry-details h6 {
+  color: #2196F3;
+  margin-bottom: 10px;
+}
+
+.enquiry-message {
+  background-color: #f8f9fa;
+  border-left: 4px solid #2196F3;
+}
+
+.response-text {
+  border: 2px solid #e0e0e0;
+  transition: all 0.3s ease;
+}
+
+.response-text:focus {
+  border-color: #2196F3;
+  box-shadow: 0 0 0 0.2rem rgba(33, 150, 243, 0.25);
+}
+</style>
+
+<script>
+let currentEnquiryId = null;
+
+function viewEnquiry(enquiryId) {
+  currentEnquiryId = enquiryId;
+  
+  // Fetch enquiry details
+  fetch(`/admin/enquiry/${enquiryId}`)
+    .then(response => response.json())
+    .then(data => {
+      const modal = document.getElementById('enquiryModal');
+      modal.querySelector('.user-email').textContent = `Email: ${data.Email}`;
+      modal.querySelector('.enquiry-date').textContent = `Date: ${new Date(data.EnquiryDate).toLocaleDateString()}`;
+      modal.querySelector('.enquiry-subject').textContent = `Subject: ${data.Subject}`;
+      modal.querySelector('.enquiry-message').textContent = data.Description;
+      modal.querySelector('.response-text').value = data.Response || '';
+      
+      new bootstrap.Modal(modal).show();
+    });
+}
+
+function submitResponse() {
+  const response = document.querySelector('.response-text').value;
+  
+  if (!response.trim()) {
+    alert('Please enter a response');
+    return;
+  }
+  
+  fetch(`/admin/respond-enquiry/${currentEnquiryId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ response })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      alert('Response sent successfully');
+      location.reload();
+    } else {
+      alert('Error sending response');
+    }
+  });
+}
+</script> 

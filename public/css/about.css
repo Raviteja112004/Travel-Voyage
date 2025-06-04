@@ -1,0 +1,203 @@
+/* About Page Styles */
+.about-container {
+    min-height: 100vh;
+    background-color: #f8fafc;
+}
+
+/* Hero Section */
+.about-hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                url('https://wallpaperaccess.com/full/1510406.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+/* Mission Section */
+.mission-section {
+    background-color: white;
+    padding: 4rem 0;
+}
+
+.content-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.mission-section h2 {
+    text-align: center;
+    color: #2d3748;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+.mission-section p {
+    text-align: center;
+    color: #4a5568;
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    line-height: 1.6;
+}
+
+.stats-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #0284c7;
+}
+
+.stat-label {
+    color: #4a5568;
+    font-size: 1.1rem;
+}
+
+/* Features Section */
+.features-section {
+    background-color: #f8fafc;
+    padding: 4rem 0;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.feature-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+}
+
+.feature-card i {
+    font-size: 2rem;
+    color: #0284c7;
+    margin-bottom: 1rem;
+}
+
+.feature-card h3 {
+    color: #2d3748;
+    margin-bottom: 1rem;
+}
+
+.feature-card p {
+    color: #4a5568;
+    line-height: 1.6;
+}
+
+/* Why Choose Us Section */
+.why-choose-section {
+    background-color: white;
+    padding: 4rem 0;
+}
+
+.benefits-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.benefit-item {
+    padding: 2rem;
+    border-left: 4px solid #0284c7;
+    background: #f8fafc;
+    border-radius: 0 10px 10px 0;
+}
+
+.benefit-content h3 {
+    color: #2d3748;
+    margin-bottom: 1rem;
+}
+
+.benefit-content p {
+    color: #4a5568;
+    line-height: 1.6;
+}
+
+/* CTA Section */
+.cta-section {
+    background: linear-gradient(to right, #0284c7, #0369a1);
+    color: white;
+    padding: 4rem 0;
+    text-align: center;
+}
+
+.cta-section h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.cta-section p {
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: white;
+    color: #0284c7;
+    padding: 1rem 2rem;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+    
+    .stats-container {
+        flex-direction: column;
+    }
+    
+    .benefit-item {
+        border-left: none;
+        border-top: 4px solid #0284c7;
+        border-radius: 0 0 10px 10px;
+    }
+} 

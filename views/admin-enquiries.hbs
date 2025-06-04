@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Enquiries</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+  <div class="flex h-screen">
+      <!-- Sidebar -->
+    <div class="bg-gray-800 text-white w-64 py-4 flex flex-col">
+      <div class="px-6 py-3 mb-6">
+        <h1 class="text-2xl font-bold">Admin Panel</h1>
+      </div>
+      <nav class="flex-1">
+        <a href="/admin/dashboard" class="block px-6 py-2 hover:bg-gray-700">
+          <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
+        </a>
+        <a href="/admin/packages" class="block px-6 py-2 hover:bg-gray-700">
+          <i class="fas fa-box mr-2"></i> Packages
+        </a>
+        <a href="/admin/bookings" class="block px-6 py-2 hover:bg-gray-700">
+          <i class="fas fa-calendar-check mr-2"></i> Bookings
+        </a>
+        <a href="/admin/users" class="block px-6 py-2 hover:bg-gray-700">
+          <i class="fas fa-users mr-2"></i> Users
+        </a>
+        <a href="/admin/enquiries" class="block px-6 py-2 bg-gray-700">
+          <i class="fas fa-question-circle mr-2"></i> Enquiries
+        </a>
+      </nav>
+      <div class="px-6 py-4">
+        <a href="/admin/logout" class="block text-gray-400 hover:text-white">
+          <i class="fas fa-sign-out-alt mr-2"></i> Logout
+        </a>
+      </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="flex-1 overflow-auto">
+      <header class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex justify-between items-center">
+          <h1 class="text-2xl font-semibold text-gray-900">Enquiries Management</h1>
+          <div class="flex items-center">
+            <span class="text-gray-600 mr-2">Welcome, {{adminUsername}}</span>
+          </div>
+        </div>
+      </header>
+      
+      <main class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subject</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                      </tr>
+                    </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              {{#if enquiries.length}}
+                      {{#each enquiries}}
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm font-medium text-gray-900">{{this.UserName}}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900">{{this.Subject}}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-500">{{this.Email}}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      {{#if this.AdminReply}}
+                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                          Replied
+                        </span>
+                      {{else}}
+                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                          Pending
+                        </span>
+                      {{/if}}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <button onclick="viewEnquiry({{this.EnquiryID}})" class="text-blue-600 hover:text-blue-900 mr-3">
+                        <i class="fas fa-eye"></i> View
+                      </button>
+                      {{#unless this.AdminReply}}
+                        <button onclick="replyToEnquiry({{this.EnquiryID}})" class="text-green-600 hover:text-green-900">
+                                <i class="fas fa-reply"></i> Reply
+                              </button>
+                      {{/unless}}
+                            </td>
+                          </tr>
+                      {{/each}}
+              {{else}}
+                <tr>
+                  <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">
+                    No enquiries available.
+                  </td>
+                          </tr>
+                        {{/if}}
+                    </tbody>
+                  </table>
+                </div>
+      </main>
+              </div>
+            </div>
+  
+  <!-- Enquiry View Modal -->
+  <div id="enquiryModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg mx-4">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-bold">Enquiry Details</h3>
+        <button onclick="closeModal('enquiryModal')" class="text-gray-400 hover:text-gray-500">
+          <i class="fas fa-times"></i>
+        </button>
+          </div>
+      <div id="enquiryDetails" class="mb-4">
+        <!-- Enquiry details will be loaded here -->
+        </div>
+      <div class="flex justify-end">
+        <button onclick="closeModal('enquiryModal')" class="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 mr-2">Close</button>
+        <button id="replyBtn" onclick="showReplyForm()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Reply</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Reply Modal -->
+  <div id="replyModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg mx-4">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-bold">Reply to Enquiry</h3>
+        <button onclick="closeModal('replyModal')" class="text-gray-400 hover:text-gray-500">
+          <i class="fas fa-times"></i>
+        </button>
+        </div>
+          <form id="replyForm">
+            <input type="hidden" id="enquiryId" name="enquiryId">
+        <div class="mb-4">
+          <label for="replyMessage" class="block text-sm font-medium text-gray-700 mb-2">Your Reply</label>
+          <textarea id="replyMessage" name="reply" rows="5" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required></textarea>
+        </div>
+        <div class="flex justify-end">
+          <button type="button" onclick="closeModal('replyModal')" class="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 mr-2">Cancel</button>
+          <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Send Reply</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <script>
+    let currentEnquiryId = null;
+    
+    function viewEnquiry(enquiryId) {
+      currentEnquiryId = enquiryId;
+      
+      // Fetch enquiry details
+      fetch(`/admin/api/enquiry/${enquiryId}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            const enquiry = data.enquiry;
+            
+            // Create and display modal with enquiry details
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50';
+            
+            let modalContent = `
+              <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg mx-4">
+                <div class="flex justify-between items-center mb-4">
+                  <h3 class="text-lg font-bold">Enquiry Details</h3>
+                  <button onclick="this.parentElement.parentElement.parentElement.remove()" class="text-gray-400 hover:text-gray-500">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+                <div class="grid grid-cols-1 gap-4 mb-4">
+                  <div>
+                    <h4 class="text-sm font-semibold text-gray-500">From</h4>
+                    <p class="text-gray-900">${enquiry.UserName || 'Anonymous'}</p>
+                  </div>
+                  <div>
+                    <h4 class="text-sm font-semibold text-gray-500">Email</h4>
+                    <p class="text-gray-900">${enquiry.Email}</p>
+                  </div>
+                  <div>
+                    <h4 class="text-sm font-semibold text-gray-500">Subject</h4>
+                    <p class="text-gray-900">${enquiry.Subject}</p>
+                  </div>
+                  <div>
+                    <h4 class="text-sm font-semibold text-gray-500">Message</h4>
+                    <p class="text-gray-900">${enquiry.Description}</p>
+                  </div>`;
+            
+            // Add admin reply if exists
+            if (enquiry.AdminReply) {
+              modalContent += `
+                <div class="mt-2 p-3 bg-blue-50 rounded-md">
+                  <h4 class="text-sm font-semibold text-blue-700">Your Reply</h4>
+                  <p class="text-gray-900">${enquiry.AdminReply}</p>
+                </div>`;
+            }
+            
+            modalContent += `</div>`;
+            
+            // Add reply button if no reply yet
+            if (!enquiry.AdminReply) {
+              modalContent += `
+                <div class="flex justify-end">
+                  <button onclick="this.parentElement.parentElement.parentElement.parentElement.remove()" class="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 mr-2">Close</button>
+                  <button onclick="replyToEnquiry(${enquiry.EnquiryID})" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Reply</button>
+                </div>`;
+            } else {
+              modalContent += `
+                <div class="flex justify-end">
+                  <button onclick="this.parentElement.parentElement.parentElement.parentElement.remove()" class="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400">Close</button>
+                </div>`;
+            }
+            
+            modalContent += `</div>`;
+            
+            modal.innerHTML = modalContent;
+            document.body.appendChild(modal);
+          } else {
+            alert('Could not load enquiry details');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('An error occurred while loading the enquiry details');
+        });
+    }
+    
+    function replyToEnquiry(enquiryId) {
+      currentEnquiryId = enquiryId;
+      document.getElementById('enquiryId').value = enquiryId;
+      document.getElementById('replyMessage').value = '';
+      document.getElementById('replyModal').classList.remove('hidden');
+    }
+    
+    function showReplyForm() {
+      // Close enquiry modal
+      closeModal('enquiryModal');
+      
+      // Open reply modal
+      document.getElementById('enquiryId').value = currentEnquiryId;
+      document.getElementById('replyMessage').value = '';
+      document.getElementById('replyModal').classList.remove('hidden');
+    }
+    
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.add('hidden');
+    }
+    
+    // Handle reply form submission
+    document.getElementById('replyForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const enquiryId = document.getElementById('enquiryId').value;
+      const reply = document.getElementById('replyMessage').value;
+      
+      fetch(`/admin/api/enquiry/${enquiryId}/reply`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ reply }),
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert('Reply sent successfully');
+          closeModal('replyModal');
+          window.location.reload(); // Refresh the page
+        } else {
+          alert('Failed to send reply: ' + data.message);
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while sending the reply');
+      });
+    });
+    
+    // Close modals when clicking outside
+    window.addEventListener('click', function(e) {
+      const enquiryModal = document.getElementById('enquiryModal');
+      const replyModal = document.getElementById('replyModal');
+      
+      if (e.target === enquiryModal) {
+        closeModal('enquiryModal');
+      }
+      
+      if (e.target === replyModal) {
+        closeModal('replyModal');
+      }
+    });
+  </script>
+</body>
+</html> 

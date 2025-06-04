@@ -1,0 +1,108 @@
+/* Hotel Selection Styling */
+.hotel-selection {
+  margin: 20px 0;
+}
+
+.hotel-select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.hotel-preview {
+  margin-top: 15px;
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 15px;
+  transition: all 0.3s ease;
+}
+
+.hotel-preview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.hotel-preview-name {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.hotel-preview-price {
+  color: #28a745;
+  font-weight: 600;
+}
+
+.hotel-preview-description {
+  margin-bottom: 12px;
+  color: #555;
+}
+
+.amenity-tag {
+  display: inline-block;
+  background-color: #e7f3ff;
+  border: 1px solid #c1dfff;
+  color: #0066cc;
+  padding: 3px 8px;
+  border-radius: 15px;
+  font-size: 12px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
+/* Booking Summary */
+.booking-summary {
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.booking-summary h3 {
+  margin-top: 0;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.summary-item.total {
+  font-weight: bold;
+  font-size: 18px;
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+  margin-top: 10px;
+}
+
+/* Print styles for invoice */
+@media print {
+  header, footer, .no-print {
+    display: none !important;
+  }
+  
+  .invoice-container {
+    width: 100%;
+    border: none;
+    box-shadow: none;
+  }
+  
+  body {
+    background-color: white;
+  }
+  
+  .print-button {
+    display: none;
+  }
+} 
